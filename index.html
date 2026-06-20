@@ -207,8 +207,8 @@
             <label for="mode1-5" class="radio-label">1-5<br>(3000 pt)</label>
             <input type="radio" id="mode1-6" name="targetMode" value="6000" onchange="updateTargetDisplay()">
             <label for="mode1-6" class="radio-label">1-6<br>(6000 pt)</label>
-            <input type="radio" id="mode1-7" name="targetMode" value="9000" onchange="updateTargetDisplay()">
-            <label for="mode1-7" class="radio-label">1-7<br>(9000 pt)</label>
+            <input type="radio" id="mode1-7" name="targetMode" value="12000" onchange="updateTargetDisplay()">
+            <label for="mode1-7" class="radio-label">1-7<br>(12000 pt)</label>
         </div>
     </div>
 
@@ -545,23 +545,17 @@
         }
     }
 
-    // 🔥 【修正箇所】 コピー用のテキストから日数情報を完全にカット
     function copyToClipboard(isPerfect, index) {
         const plan = isPerfect ? globalPerfectResult : globalNormalResults[index];
         if (!plan) return;
 
-        // 同じギフト名（期限付き・通常問わず）を純粋に合算して「ギフト名: 個数個」にまとめる
         let combinedGifts = {};
         plan.gifts.forEach(g => {
-            if (!combinedGifts[g.name]) {
-                combinedGifts[g.name] = 0;
-            }
+            if (!combinedGifts[g.name]) { combinedGifts[g.name] = 0; }
             combinedGifts[g.name] += g.count;
         });
 
-        let textLines = Object.keys(combinedGifts).map(name => {
-            return `${name}: ${combinedGifts[name]}個`;
-        });
+        let textLines = Object.keys(combinedGifts).map(name => { return `${name}: ${combinedGifts[name]}個`; });
         let textToCopy = textLines.join('\n');
 
         navigator.clipboard.writeText(textToCopy).then(() => {
